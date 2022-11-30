@@ -1,0 +1,35 @@
+{% extends 'main/layout.html' %}
+
+{% block head %}
+	<script>
+		function final_decision(){
+			let user_choice = confirm('Are you sure to continue?');
+			if (user_choice === true) {
+				alert('Congratulations, you have made right choice!..');
+			} else {
+				alert('Sorry but you have to go anyway ...');
+			}
+			
+		}
+	</script>
+{% endblock %}
+
+{% block body %}
+
+	<h1>Project#1 : start page</h1>
+
+	<ol>
+		{% for cart_item in cart %}
+			<li>{{cart_item}}</li>
+		{% empty %}
+			<p>hallo, dude, your cart is empty!..</p>
+			<p>to jump in : 
+				<a href = "{% url 'main:hello' 'nikolay' %}">
+					<button onclick = 'final_decision()'>log in</button>
+				</a> and then go shopping ...
+			</p>
+			
+		{% endfor %}
+	</ol>
+	
+{% endblock %}
