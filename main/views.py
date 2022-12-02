@@ -12,5 +12,6 @@ def index(request):
 		'cart' : user_cart,
 		})
 
-def hello(request, name):
+def hello(request):
+	name = 'nikolay'
 	return HttpResponse(f'glad to see you, {name.capitalize()}, and hello from the main_app!')

@@ -1,0 +1,23 @@
+{% extends 'users/layout.html' %}
+
+{% block body %}
+
+	<h1>User #{{user.id}} : {{user.username}}</h1>
+
+	<form method="post">
+		{% csrf_token %}
+		{{form}}
+		<input type="submit" value="create">
+
+	</form>
+
+	<p><a href=" {% url 'users:user' user.id %}">pass by</a></p>
+	<p><a href=" {% url 'users:logout' %}">log out</a></p>
+
+
+	{% if msg_3 %}
+		<p>{{msg_3.text}}</p>
+	{% endif %}
+
+	<p><a href=" {% url 'users:admin_data' user.id %}">admin request</a></p>
+{% endblock %}
