@@ -90,10 +90,10 @@ def uprofile(request, user_id):
 			profile_sex = form.cleaned_data['sex']
 			profile_birthday = form.cleaned_data['birthday']
 
-			if profile_age == None:
-				profile_age = 0
-			if profile_birthday == None:
-				profile_birthday = date.today()
+			# if profile_age == None:
+			# 	profile_age = 0
+			# if profile_birthday == None:
+			# 	profile_birthday = date.today()
 
 			uprofile = Profile_user(
 				user = profile_user,
@@ -143,22 +143,9 @@ def admin_data(request, user_id):
 		
 		form = AdminData(request.POST)
 		if form.is_valid():
-
-			data_nick = form.cleaned_data['nick']
-			data_first = form.cleaned_data['f_name']
-			data_last = form.cleaned_data['l_name']
-			data_email = form.cleaned_data['email']
-			data_phone = form.cleaned_data['phone']
-
-			admin_data = Profile_admin(
-				user = data_user,
-				nick = data_nick,
-				f_name = data_first,
-				l_name = data_last,
-				email = data_email,
-				phone = data_phone,
-				)
-
+			admin_data = form.save(commit = False)
+			admin_data.user = data_user
+			
 			# print(
 			# 	admin_data.user.username,
 			# 	admin_data.nick,
