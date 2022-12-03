@@ -1,0 +1,30 @@
+{% extends 'products/layout.html' %}
+
+{% block body %}
+
+	<h1> Price list #{{price_list.id}} : </h1>
+	<h3>{{price_list}} </h3>
+
+	<ol>
+		{% for price_list_item in price_list_items %}
+			<li>
+				{{price_list_item.product.title}} : {{price_list_item.price}} rub.
+			</li>
+		{% empty %}
+			<li>no products in this price list</li>
+		{% endfor %}		
+	</ol>
+
+	<h2>Add Product</h2>
+	<form action = "{% url 'products:add2price' price_list.id %}" method = "post"> 
+		{% csrf_token %}
+		<select name = 'product'>
+			{% for product in extra_products %}
+				<option value = '{{product.id}}'>{{product}}</option>
+			{% endfor %}
+		</select>
+		<input type="submit" value="add price">
+		
+	</form>
+
+{% endblock %}

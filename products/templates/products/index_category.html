@@ -1,0 +1,21 @@
+{% extends 'products/layout.html' %}
+
+{% block body %}
+
+	<h1>Products</h1>
+
+	<p>{{prod_category}}</p>
+
+	<ul>
+		{% for product in products %}
+			<li>
+				<a href="{% url 'products:product' product.0.id %}">
+				{{product.0.title}} : {{product.1}}
+				</a>
+			</li>
+		{% empty %}
+			<p>no products in this category</p>
+		{% endfor %}		
+	</ul>
+
+{% endblock %}

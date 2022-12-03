@@ -1,0 +1,16 @@
+{% extends 'products/layout.html' %}
+
+{% block body %}
+
+	<h1>Add to price list {{price_list.id}}</h1>
+
+	<p>{{price_list}}</p>
+	<form action="{% url 'products:add2count' price_list.id %} " method="post">
+		{% csrf_token %}
+		<p><input type="number" name="product_id" value="{{product.id}}" readonly>{{product}}</p>
+		<p><input type="number" step="0.01" name="product_price" placeholder="price" required></p>
+		<input type="submit" value="add">
+		
+	</form>
+
+{% endblock %}

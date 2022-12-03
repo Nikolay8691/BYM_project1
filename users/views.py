@@ -90,11 +90,8 @@ def uprofile(request, user_id):
 			profile_sex = form.cleaned_data['sex']
 			profile_birthday = form.cleaned_data['birthday']
 
-			# print('profile_age : ', profile_age, 'type :', type(profile_age))
-			# print('profile_birthday : ', profile_birthday, 'type :', type(profile_birthday))
-
 			if profile_age == None:
-				profile_age =0
+				profile_age = 0
 			if profile_birthday == None:
 				profile_birthday = date.today()
 
@@ -109,16 +106,16 @@ def uprofile(request, user_id):
 				birthday = profile_birthday
 				)
 
-			print(
-				uprofile.user.username, type(uprofile.user.username),
-				uprofile.f_name, type(uprofile.f_name),
-				uprofile.l_name, type(uprofile.l_name),
-				uprofile.email, type(uprofile.email),
-				uprofile.phone, type(uprofile.phone),
-				uprofile.age, type(uprofile.age),
-				uprofile.sex, type(uprofile.sex),
-				uprofile.birthday, type(uprofile.birthday)
-				)
+			# print(
+			# 	uprofile.user.username, type(uprofile.user.username),
+			# 	uprofile.f_name, type(uprofile.f_name),
+			# 	uprofile.l_name, type(uprofile.l_name),
+			# 	uprofile.email, type(uprofile.email),
+			# 	uprofile.phone, type(uprofile.phone),
+			# 	uprofile.age, type(uprofile.age),
+			# 	uprofile.sex, type(uprofile.sex),
+			# 	uprofile.birthday, type(uprofile.birthday)
+			# 	)
 
 
 			uprofile.save()
@@ -162,14 +159,14 @@ def admin_data(request, user_id):
 				phone = data_phone,
 				)
 
-			print(
-				admin_data.user.username,
-				admin_data.nick,
-				admin_data.f_name,
-				admin_data.l_name,
-				admin_data.email,
-				admin_data.phone,
-				)
+			# print(
+			# 	admin_data.user.username,
+			# 	admin_data.nick,
+			# 	admin_data.f_name,
+			# 	admin_data.l_name,
+			# 	admin_data.email,
+			# 	admin_data.phone,
+			# 	)
 
 			admin_data.save()
 

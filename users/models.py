@@ -25,7 +25,7 @@ class Profile_user(models.Model):
 	email = models.EmailField(blank = True)
 	phone = models.CharField(max_length = 32, blank = True)
 
-	age = models.IntegerField(default = 1, blank = True)
+	age = models.IntegerField(default = 0, blank = True)
 	sex = models.CharField(max_length = 7, blank = True)
 	birthday = models.DateField(default = date.today, blank = True)
 

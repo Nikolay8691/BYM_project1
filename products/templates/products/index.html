@@ -1,0 +1,33 @@
+{% extends 'products/layout.html' %}
+
+{% block body %}
+
+	<h1>Products</h1>
+
+	<p>Categories : {{prod_category}}</p>
+
+	<form action="{% url 'products:index' %}" method='post'>
+		{% csrf_token %}
+		<select name = 'category'>
+			{% for category in categories %}
+			<option value = '{{category}}'>{{category}}</option>
+			{% endfor %}
+		</select>
+		<input type='submit' value='send'>
+	</form>
+
+	<p>{{price_list}}</p>
+	<ul>
+		{% for product in products %}
+			<li>
+				<a href="">
+					<button name="add to cart">cart += </button>
+				</a>
+				<a href="{% url 'products:product' product.0.id %}">
+				{{product.0.title}} : {{product.1}}
+				</a>
+			</li>
+		{% endfor %}		
+	</ul>
+
+{% endblock %}

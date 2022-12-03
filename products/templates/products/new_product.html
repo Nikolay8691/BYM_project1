@@ -1,0 +1,15 @@
+{% extends 'products/layout.html' %}
+
+{% block body %}
+	<h1>Add product</h1>
+	<h3>by Admin #{{admin.id}} : {{admin.username}}</h3>
+
+	<form method="post">
+		{% csrf_token %}
+		{{form}}
+		<input type="submit" value="add product">
+
+	</form>
+
+	<p><a href=" {% url 'products:index' %}">cancel</a></p>
+{% endblock %}
