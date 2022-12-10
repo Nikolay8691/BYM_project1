@@ -3,6 +3,8 @@ from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
+	request.session['index'] = ['main']
+
 	if 'user_cart' not in request.session:
 		request.session['user_cart'] = []
 
@@ -10,6 +12,7 @@ def index(request):
 	# print(user_cart)
 	return render(request, 'main/index.html', {
 		'cart' : user_cart,
+		'user' : request.user,
 		})
 
 def hello(request):

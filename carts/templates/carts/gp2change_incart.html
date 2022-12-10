@@ -1,0 +1,36 @@
+{% extends 'carts/layout.html' %}
+
+{% block head %}
+	<script>
+		document.addEventListener('DOMContentLoaded', 
+			function(){ 
+				var heading = undefined; 
+				var element = undefined;
+				heading = document.querySelector('#qnt');
+				element = '.plus';
+				document.querySelectorAll(element).forEach(
+			function(element){element.onclick = 
+			function() {
+				if (this.innerHTML === '+') {
+					heading.value = +heading.value + 1;}
+				else {
+					heading.value = +heading.value - 1;}
+				}
+			})})
+	</script>
+{% endblock %}
+
+{% block body %}
+
+	<h1>Change the number of product (pcs.) :</h1>
+
+	<form method="post">
+		{% csrf_token %}
+		<label>{{gp_product.0}} :</label>
+		<input type="number" value="{{gp_product.1}}" name="pcs" id='qnt'>
+		<button type="button" class='plus'>+</button>
+		<button type="button" class='plus'>-</button>
+		<input type="submit" value="send">
+	</form>
+
+{% endblock %}

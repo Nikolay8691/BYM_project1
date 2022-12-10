@@ -1,21 +1,47 @@
 {% extends 'products/layout.html' %}
-
+{%block head %}
+<script>
+	function new_value(id){
+		const re_book = confirm(`this product is booked - re_book?`);
+		}
+</script>
+{% endblock %}
 {% block body %}
 
 	<h1>Products</h1>
 
 	<p>{{prod_category}}</p>
 
-	<ul>
-		{% for product in products %}
-			<li>
-				<a href="{% url 'products:product' product.0.id %}">
-				{{product.0.title}} : {{product.1}}
-				</a>
-			</li>
-		{% empty %}
-			<p>no products in this category</p>
-		{% endfor %}		
-	</ul>
+	{% for gp_product in gp_products %}
+	
+	<form action="{% url 'carts:plus' gp_product.0.id %}" method="post">
+		{% csrf_token %}
+		{% if gp_product.1 %}
+			<div>
+				<input type="submit" value="cart +=" disabled=True>
+				<input type='number' class = 'qnt' name='pcs' value='{{gp_product.1}}' disabled=True>
+				<label>
+					pcs. of 
+					<a href="{% url 'products:product' gp_product.0.product.id %}">
+					{{gp_product.0.product.title}}
+					</a> : {{gp_product.0.price}} rub.
+				</label>
+				<button class = 'book' onclick = 'new_value({{gp_product.0.id}})'>re-book</button>
+			</div>
+		{% else %}
+			<div>
+				<input type="submit" value="cart +=">
+				<input type='number' class = 'qnt' name='pcs' value='{{gp_product.1}}'>
+				<label>
+					pcs. of 
+					<a href="{% url 'products:product' gp_product.0.product.id %}">
+					{{gp_product.0.product.title}}
+					</a> : {{gp_product.0.price}} rub.
+				</label>
+			</div>
+		{% endif %}
+	</form>
+
+	{% endfor %}
 
 {% endblock %}

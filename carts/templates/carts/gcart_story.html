@@ -1,0 +1,22 @@
+{% extends 'carts/layout.html' %}
+
+{% block body %}
+
+	<h1>Story</h1>
+
+	<p>sale # : {{story.id}}</p>
+	<p>buyer : {{story.buyer}}</p>
+	<p>date & time : {{story.date_y}}</p>
+	<ol>
+		{% for product in products %}
+		<li>{{product}}</li>
+		{% empty %}
+		<li>no products in this cart</li>
+		{% endfor %}
+	</ol>
+	
+	
+	<h2>total sum : {{sum}}</h2>
+	<h3>total qnt : {{qnt}}</h3>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'carts/layout.html' %}
+
+{% block body %}
+	<h1>Cart :</h1>
+	
+	{% for cart_item in cart %}
+		<form action="{% url 'carts:change' cart_item.0.id %}" method="post">
+			{% csrf_token %}
+			<input type="submit" value="re-book">
+			
+			<label>
+				<a href="{% url 'products:product' cart_item.0.product.id %}">
+				{{cart_item.0.product.title}}
+				</a> : at {{cart_item.0.price}} rub. the number of pcs. :
+			</label>
+			
+			<input type="number" name="pcs" value="{{cart_item.1}}" id="qnt">
+			<a><button type="button" class="plus">+</button></a>
+			<a><button type="button" class="plus">-</button></a>
+		</form>
+	{% empty %}
+		<p> cart is empty </p>
+	{% endfor %}
+	
+	<a href="{% url 'carts:gcart_story' %}"><button type="button">PAY</button></a>
+	<a href="{% url 'users:logout' %}"><button type="button">CANCEL</button></a>
+	<a href="{% url 'products:index' %}"><button type="button">ADD PRODUCTS</button></a>
+
+{% endblock %}
