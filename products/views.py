@@ -1,12 +1,13 @@
 from django.shortcuts import render
-
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
 from .models import Product, PriceList, GlobalPrice, Category, Product_status
 from .forms import AddForm
+from .checkers import admin_logged_in, user_logged_in
 
 # Create your views here.
+@user_logged_in
 def index(request):
 	request.session['index'] += ['products']
 
@@ -61,7 +62,8 @@ def product(request, product_id):
 	return render(request, 'products/product.html', {
 		'product' : product,
 		})
-
+	
+@admin_logged_in
 def new_product(request):
 
 	if request.method == 'POST':

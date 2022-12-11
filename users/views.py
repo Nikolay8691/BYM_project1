@@ -14,6 +14,17 @@ from urllib.parse import urlencode
 from datetime import date
 
 # Create your views here.
+def user_in(request):
+	buyers = Profile_user.objects.all()
+	buyers_user = [person.user for person in buyers]
+	return request.user in buyers_user
+
+def admin_in(request):
+	admins = Profile_admin.objects.all()
+	admins_user = [person.user for person in admins]
+	return request.user in admins_user
+
+
 def index(request):
 	return render(request, 'users/index.html', {
 		'users' : User.objects.all()
@@ -46,6 +57,10 @@ def login_view(request):
 		user = authenticate(request, username = username, password = password)
 		if user is not None:
 			login(request, user)
+			request.session['user_in'] = user_in(request)
+			request.session['admin_in'] = admin_in(request)
+			print('user_in : ', request.session['user_in'])
+			print('admin_in : ', request.session['admin_in'])
 			return HttpResponseRedirect(reverse('users:user', args = (user.id,)))
 		else:
 			return render(request, 'users/login.html', {
@@ -56,7 +71,6 @@ def login_view(request):
 
 def logout_view(request):
 	logout(request)
-	request.session['user_cart'] = []
 	return render(request, 'users/login.html', {
 		'msg_2' : {'msg_type' : 'negative', 'msg_text' : 'Logged out'},
 		})
