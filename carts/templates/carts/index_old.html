@@ -1,0 +1,30 @@
+{% extends 'carts/layout.html' %}
+
+{% block body %}
+	<h1>Cart :</h1>
+
+	<ol>
+		{% for cart_item in cart %}
+			<li>
+				<a href="{% url 'products:product' cart_item.0.product.id %}">
+					{{cart_item.0.product.title}}
+				</a>
+				at {{cart_item.0.price}} rub. the number of pcs. : {{cart_item.1}}
+
+				<a href="{% url 'carts:change' cart_item.0.id %}">
+					<button type="button" class = 'book'>re-book</button>
+				</a>
+				<a href="">
+					<button type="button" class = 'de_lete'>delete</button>
+				</a>
+			</li>
+		{% empty %}
+			<p> cart is empty </p>
+		{% endfor %}
+	</ol>
+	
+	<a href="{% url 'carts:gcart_story' %}"><button type="button">PROCEEDE WITH PAYMENT</button></a><p></p>
+	<a href="{% url 'products:index' %}"><button type="button">ADD PRODUCTS</button></a></a><p></p>
+	<a href="{% url 'users:logout' %}"><button type="button">CANCEL</button>
+
+{% endblock %}

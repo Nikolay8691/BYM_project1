@@ -1,0 +1,37 @@
+{% extends 'products/layout.html' %}
+
+{% block body %}
+	<h1>Price Lists :</h1>
+	<h3>by Admin #{{admin.id}} : {{admin.user.username}}</h3>
+
+	<div class = 'msg2'>
+	{% if msg_2 %}
+		{% if msg_2.msg_type == 'positive' %}
+			<p style = 'color: green;'>{{msg_2.msg_text}}</p>
+		{% elif msg_2.msg_type == 'negative' %}
+			<p style = 'color: red;'>{{msg_2.msg_text}}</p>
+		{% elif msg_2.msg_type == 'neutral' %}
+			<p style = 'font-weight: bold; color: blue;'>{{msg_2.msg_text}}</p>
+		{% else %}
+			<p style = 'color: yellow;'>{{msg_2.msg_text}}</p>
+		{% endif %}
+	{% else %}
+		<p style = 'color: darkgrey;'>it comes from ... don't know where from!</p>
+	{% endif %}
+	</div>
+
+	<ul>
+	{% for price in prices %}
+		<li>
+			{{price}}
+			<a href="{% url 'products:new_price' price.id %} ">
+				<button type="button">add products</button>
+			</a>
+		</li>
+	{% empty %}
+		<p>no price lists made by this admin</p>
+	{% endfor %}
+	</ul>
+	<p><a href=" {% url 'products:create_pricelist' admin.id %}">create new price list</a></p>
+	<p><a href=" {% url 'users:admin_look' admin.user.id %} ">back to admin's page</a></p>
+{% endblock %}

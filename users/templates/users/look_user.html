@@ -1,0 +1,23 @@
+{% extends 'users/layout.html' %}
+
+{% block body %}
+
+	<h1>User #{{user.user.id}} : {{user.user.username}}</h1>
+	<p>first name : {{user.f_name}}</p>
+	<p>last name : {{user.l_name}}</p>
+	<p>birthday : {{user.birthday}}</p>
+	<p>age : {{user.age}}</p>
+	<p>sex : {{user.sex}}</p>
+	<p>email address : {{user.email}}</p>
+	<p>phone number : {{user.phone}}</p>
+
+	</br>
+	<a href=" {% url 'products:index' %}">go shopping</a>
+	</br>
+	<a href=" {% url 'carts:gc_userhistory' user.id %}">user carts' history</a>	
+	</br>	
+	<a href=" {% url 'users:user' user.user.id %}">back to user's page</a>	
+	</br>
+	<a href=" {% url 'users:logout' %}">logout</a>
+
+{% endblock %}

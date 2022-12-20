@@ -1,0 +1,17 @@
+{% extends 'users/layout.html' %}
+
+{% block body %}
+
+	<h1>User #{{admin.user.id}} : {{admin.user.username}}</h1>
+	<p>first name : {{admin.f_name}}</p>
+	<p>last name : {{admin.l_name}}</p>
+	<p>nick : {{admin.nick}}</p>
+	<p>email address : {{admin.email}}</p>
+	<p>phone number : {{admin.phone}}</p>
+	
+	</br>	<a href=" {% url 'products:admin_prices' admin.id %}">change or create price lists</a>
+	</br>	<a href=" {% url 'products:new_product' %}">create new product</a>
+	</br>	<a href=" {% url 'users:user' admin.user.id %}">back to user's page</a>
+	</br>	<a href=" {% url 'users:logout' %}">logout</a>
+
+{% endblock %}

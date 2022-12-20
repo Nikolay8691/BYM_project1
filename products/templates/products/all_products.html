@@ -1,0 +1,33 @@
+{% extends 'products/layout.html' %}
+
+{% block body %}
+
+	<h1>Products :</h1>
+	<p>{{admin}}</p>
+
+	<ol>
+	{% for product in products %}
+		<li> <a href="{% url 'products:product' product.id %}">
+			 {{product.title}}</a></br>
+		<ul>
+			<li>{{product.category}}</li>
+			<li>description : {{product.description}}</li>
+			{% if product.photo %}
+				<li>{{product.photo}}</li>
+			{% else %}
+				<li>no photo</li>
+			{% endif %}
+			<li>{{product.state}}</li>
+		</ul>
+		</li>
+	{% empty %}
+		<p>there are no products in the shop</p>
+	{% endfor %}
+	</ol>
+
+	<p><a href=" {% url 'products:new_product' %}">back to new product's page</a></p>
+	<p><a href=" {% url 'products:admin_prices' admin.id %}">back to admin's price lists</a></p>
+	<p><a href=" {% url 'users:admin_look' admin.user.id %}">back to admin's page</a></p>
+	<p><a href=" {% url 'users:logout' %}">cancel</a></p>
+
+{% endblock %}

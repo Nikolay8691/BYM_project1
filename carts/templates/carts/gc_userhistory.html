@@ -1,0 +1,30 @@
+{% extends 'carts/layout.html' %}
+
+{% block body %}
+
+	<h1>Sales hiStory</h1>
+	<p>User : {{user}}</p>
+
+	<h2>User's carts :</h2>
+	<ol>
+		{% for cart in user_carts %} 
+		<li>
+			<a href="{% url 'carts:index_fromhistory' cart.4.0 %}">
+			date {{cart.4.1}} user's cart #{{cart.4.0}}
+			</a>
+			
+			 : {{cart.3}} products; total qnt : {{cart.1}} pcs.; total sum : {{cart.2}}
+		</li>
+		{% empty %}
+			<p>there are no carts of this user!</p>
+		{% endfor %}
+	</ol>
+
+	<h2>total sum : {{user_sum}}</h2>
+	<h3>total carts' number  : {{user_sales}}</h3>
+
+	</br>
+	<a href="{% url 'users:logout' %}"> log out</a>		
+
+
+{% endblock %}

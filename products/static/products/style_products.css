@@ -1,0 +1,13 @@
+.tooltip {
+  position: absolute;
+  margin: 5px;
+  width: 800px;
+  height: 25px;
+  border: 1px dashed orange;
+  border-radius: 5px;
+  font: bold;
+  text-align: right;
+  color: white;
+  background-color: orange;
+  display: none;
+}

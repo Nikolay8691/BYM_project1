@@ -1,0 +1,30 @@
+{% extends 'carts/layout.html' %}
+
+{% block body %}
+
+	<h1>Cart #{{slist_data.0}} from {{slist_data.1}}</h1>
+	<p>User : {{user}}</p>
+
+	<ol>
+		{% for product in user_cart %} 
+		<li>
+			{{product.gp_product.product.title}} 
+			at price : {{product.gp_product.price}}rub. 
+			qnt : {{product.qnt}}pcs.
+		</li>
+		{% empty %}
+			<p>there are no products in this user!</p>
+		{% endfor %}
+	</ol>
+
+	<h3>total pcs  : {{cart_qnt}}</h3>
+	<h2>total sum : {{cart_sum}}</h2>
+
+	</br>
+	<a href="{% url 'carts:gc_userhistory' user.id %}"> back to cart's history</a>
+	</br>
+	<a href="{% url 'users:user_look' user.id %}"> user's page</a>
+	</br>
+	<a href="{% url 'users:logout' %}"> log out</a>	
+	
+{% endblock %}
