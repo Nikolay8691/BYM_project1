@@ -1,13 +1,46 @@
 {% extends 'users/layout.html' %}
-
+{% block head %}
+ 	<style>
+ 		.msg2 {
+ 			font-weight: bold;
+ 			color: yellow;
+ 		}
+ 	</style>
+{% endblock %}
 {% block body %}
 
 	<h1>User #{{user.id}} : {{user.username}}</h1>
 
 	{% if msg_2 %}
-		<p>{{msg_2.msg_text}}</p>
+	<div class = 'msg2'>
+		{% if msg_2.msg_type == 'positive' %}
+			<p style = 'color: green;'>{{msg_2.msg_text}}</p>
+		{% elif msg_2.msg_type == 'negative' %}
+			<p style = 'color: red;'>{{msg_2.msg_text}}</p>
+		{% elif msg_2.msg_type == 'neutral' %}
+			<p style = 'color: darkgrey;'>{{msg_2.msg_text}}</p>
+		{% else %}
+			<p>{{msg_2.msg_text}}</p>
+		{% endif %}
+	</div>
 	{% endif %}
 
+	{% if msg_user %}
+		<a href=" {% url 'users:user_look' user.id %} ">enter user's profile</a></br>
+	{% else %}
+		<a href=" {% url 'users:user_profile' user.id %} ">create user's profile</a></br>
+	{% endif %}
+
+	{% if msg_admin %}
+		<a href=" {% url 'users:admin_look' user.id %} ">enter admin's profile</a></br>
+	{% else %}
+		<a href=" {% url 'users:admin_data' user.id %} ">request admin's profile</a></br>
+	{% endif %}
+
+	</br>
+	<a href=" {% url 'products:index' %}">go shopping</a>
+	
+	</br>
 	<a href=" {% url 'users:logout' %}">logout</a>
 
 {% endblock %}

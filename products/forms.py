@@ -7,5 +7,5 @@ from .models import Product
 class AddForm(ModelForm):
 	class Meta:
 		model = Product
-		fields = '__all__'
-
+		# fields = '__all__'
+		exclude = ['sale_lists']

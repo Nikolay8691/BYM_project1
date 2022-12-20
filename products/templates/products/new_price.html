@@ -4,6 +4,7 @@
 
 	<h1> Price list #{{price_list.id}} : </h1>
 	<h3>{{price_list}} </h3>
+	<p>{{admin}}</p>
 
 	<ol>
 		{% for price_list_item in price_list_items %}
@@ -23,8 +24,10 @@
 				<option value = '{{product.id}}'>{{product}}</option>
 			{% endfor %}
 		</select>
-		<input type="submit" value="add price">
+		<input type="submit" value="add">
 		
 	</form>
+
+	<p><a href=" {% url 'products:admin_prices' admin.id %}">cancel</a></p>
 
 {% endblock %}

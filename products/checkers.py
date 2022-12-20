@@ -19,9 +19,9 @@ def user_logged_in(f):
 			if request.session['user_in']:
 				return f(request, *args, **kwargs)
 			else:
-				return HttpResponse('you are not logged in as buyer, first create user_profile and then log in again')
+				return HttpResponse('you are not logged in as buyer, to change this just create user_profile')
 		except KeyError:
-				return HttpResponse('You are not even logged in!')
+			return HttpResponse('You are not even logged in!')
 	return wrapper
 
 def admin_logged_in(f):
@@ -32,7 +32,7 @@ def admin_logged_in(f):
 			if request.session['admin_in']:
 				return f(request, *args, **kwargs)
 			else:
-				return HttpResponse('you are not logged in as admin, yuo need to do the following: 1. submit request for admin_profile 2. log in again')
+				return HttpResponse('you are not logged in as admin, then submit the request for admin_profile')
 		except KeyError:
-				return HttpResponse('You are not even logged in!')
+			return HttpResponse('You are not even logged in!')
 	return wrapper

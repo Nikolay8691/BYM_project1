@@ -20,11 +20,12 @@
 	<p>User : {{user}}</p>
 
 	<ol>
+		<h3>User's cart :</h3>
 		{% for cart_item in cart %}
-			<li>{{cart_item}}</li>
+			<li>{{cart_item.0.product.title}} : {{cart_item.1}} pcs.</li>
 		{% empty %}
 			<p>hallo, dude, your cart is empty!..</p>
-			<p>to jump in : 
+			<p>to jump in :  
 				<a href = "{% url 'users:login' %}">
 					<button onclick = 'final_decision()'>log in</button>
 				</a> and then go shopping ...
@@ -32,5 +33,16 @@
 			
 		{% endfor %}
 	</ol>
+
+	{% if some_in %}
+		<a href="{% url 'users:user' user.id %}"> user's page</a>
+		</br>
+		<a href="{% url 'carts:index' %}"> user's cart</a>
+		</br>
+		<a href="{% url 'users:index' %}"> users' list</a>
+		</br>
+		<a href="{% url 'users:logout' %}"> log out</a>		
+	{% endif %}
+
 	
 {% endblock %}

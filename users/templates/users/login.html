@@ -1,5 +1,12 @@
 {% extends 'users/layout.html '%}
-
+{% block head %}
+ 	<style>
+ 		.msg2 {
+ 			font-weight: bold;
+ 			color: yellow;
+ 		}
+ 	</style>
+{% endblock %}
 {% block body %}
 
 	<form action="{% url 'users:login' %}" method="post">
@@ -8,10 +15,23 @@
 		<input type="password" name="password" placeholder="Password">
 		<input type="submit" value="log in">
 	</form>
+
+	<div class = 'msg2'>
 	{% if msg_2 %}
-		<p>{{msg_2.msg_text}}</p>
+		{% if msg_2.msg_type == 'positive' %}
+			<p style = 'color: green;'>{{msg_2.msg_text}}</p>
+		{% elif msg_2.msg_type == 'negative' %}
+			<p style = 'color: red;'>{{msg_2.msg_text}}</p>
+		{% elif msg_2.msg_type == 'neutral' %}
+			<p style = 'color: darkgrey;'>{{msg_2.msg_text}}</p>
+		{% else %}
+			<p>{{msg_2.msg_text}}</p>
+		{% endif %}
 	{% else %}
 		<p>it comes from start page</p>
 	{% endif %}
+	</div>
+
+	<a href=" {% url 'users:register' "><button type="button">register new</button></a>
 
 {% endblock %}

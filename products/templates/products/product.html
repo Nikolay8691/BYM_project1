@@ -2,17 +2,19 @@
 
 {% block body %}
 
-<h1>Product #{{product.id}} :</h1>
+	<h1>Product #{{product.id}} :</h1>
 
-<ul>
-	<li>{{product.title}}</li>
-	<li>{{product.category}}</li>
-	<li>description : {{product.description}}</li>
-	{% if product.photo %}
-		<li>{{product.photo}}</li>
-	{% else %}
-		<li>no photo</li>
-	{% endif %}
-</ul>
+	<ul>
+		<li>{{product.title}}</li>
+		<li>{{product.category}}</li>
+		<li>description : {{product.description}}</li>
+		{% if product.photo %}
+			<li>{{product.photo}}</li>
+		{% else %}
+			<li>no photo</li>
+		{% endif %}
+	</ul>
+
+	<button type="button" onclick="javascript:history.back()">back</button>
 
 {% endblock %}

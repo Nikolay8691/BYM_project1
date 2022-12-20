@@ -1,10 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
 from .models import Product, PriceList, GlobalPrice, Category, Product_status
+from users.models import Profile_user, Profile_admin
+
 from .forms import AddForm
+
 from .checkers import admin_logged_in, user_logged_in
+from urllib.parse import urlencode
+from datetime import date, datetime
 
 # Create your views here.
 @user_logged_in
@@ -62,7 +67,14 @@ def product(request, product_id):
 	return render(request, 'products/product.html', {
 		'product' : product,
 		})
-	
+
+def all_products(request):
+	admin_profile = Profile_admin.objects.get(user = request.user)
+	return render(request, 'products/all_products.html', {
+		'products' : Product.objects.all(),
+		'admin' : admin_profile,
+		})
+
 @admin_logged_in
 def new_product(request):
 
@@ -70,11 +82,6 @@ def new_product(request):
 		form = AddForm(request.POST)
 		if form.is_valid():
 			new_product = form.save()
-			print(
-				'products_title : ', new_product.title, 
-				'admin : ', new_product.admin_madeby,
-				'date on : ', new_product.date_created
-				)
 			return HttpResponseRedirect(reverse('products:product', args = (new_product.id,)))
 		else:
 			return render(request, 'products/new_product.html', {
@@ -91,9 +98,39 @@ def new_product(request):
 			'status_all' : Product_status.objects.all(),
 			})
 
+@admin_logged_in
+def admin_prices(request, admin_id):
+	admin = Profile_admin.objects.get(pk = admin_id)
+	price_lists = admin.created_by.all()
+
+	message = request.GET.get('message')
+	if message == None:
+		msg_2 = {'msg_type' : 'positive', 'msg_text' : 'from admin profile'}
+	else:
+		msg_2 = {'msg_type' : 'neutral', 'msg_text' : message}
+
+	return render(request, 'products/admin_prices.html', {
+		'admin' : admin,
+		'prices' : price_lists,
+		'msg_2' : msg_2,
+		})
+
+def create_pricelist(request, admin_id):
+	admin = Profile_admin.objects.get(pk = admin_id)
+	price_list = PriceList(creator = admin, date_x = date.today())
+	price_list.save()
+	# return HttpResponseRedirect((reverse('products:admin_prices', args = (admin_id,))))
+
+	base_url = reverse('products:admin_prices', args = (admin_id,))
+	msg_4 = 'new price list is successfully created! choose it and add products'
+	msg_text = urlencode({'message' : msg_4})
+	url = f'{base_url}?{msg_text}'
+
+	return redirect(url)
+
 def new_price(request, price_list_id):
 	price_list = PriceList.objects.get(pk = price_list_id)
-	price_list_items = GlobalPrice.objects.filter(price_list = price_list)
+	price_list_items = price_list.by_price_list.all()
 
 	gp_products = [gp_item.product for gp_item in price_list_items]
 	extra_products = list(set(Product.objects.all()) - set(gp_products))
@@ -101,6 +138,7 @@ def new_price(request, price_list_id):
 		'extra_products' : extra_products,
 		'price_list_items' : price_list_items,
 		'price_list' : price_list,
+		'admin' : Profile_admin.objects.get(user = request.user),
 		})
 
 def add2price(request, price_list_id):

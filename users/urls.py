@@ -10,4 +10,8 @@ urlpatterns = [
     path('<int:user_id>', views.user, name = 'user'),
     path('<int:user_id>/uprofile', views.uprofile, name = 'user_profile'),
     path('<int:user_id>/admin_data', views.admin_data, name = 'admin_data'),
+# 
+    path('<int:user_id>/user_look', views.user_look, name = 'user_look'),
+    path('<int:user_id>/admin_look', views.admin_look, name = 'admin_look'),
+
 ] 

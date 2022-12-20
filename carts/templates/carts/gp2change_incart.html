@@ -17,6 +17,9 @@
 					heading.value = +heading.value - 1;}
 				}
 			})})
+		function value_0(){
+			document.querySelector('#qnt').value = 0;
+		}
 	</script>
 {% endblock %}
 
@@ -27,10 +30,15 @@
 	<form method="post">
 		{% csrf_token %}
 		<label>{{gp_product.0}} :</label>
-		<input type="number" value="{{gp_product.1}}" name="pcs" id='qnt'>
+		<input type="number" value="{{gp_product.1}}" name="pcs" id='qnt' min="0">
 		<button type="button" class='plus'>+</button>
 		<button type="button" class='plus'>-</button>
 		<input type="submit" value="send">
+		{% if from_app == 'products' %}
+		<button onclick="value_0()" type="submit" id="delete">delete</button>
+		{% endif %}
 	</form>
+	</br>
+	<a href="{% url 'carts:index' %}"> cancel / back to cart</a>
 
 {% endblock %}

@@ -12,6 +12,7 @@ from .models import Profile_user, Profile_admin
 from urllib.parse import urlencode
 
 from datetime import date
+from products.checkers import admin_logged_in, user_logged_in
 
 # Create your views here.
 def user_in(request):
@@ -24,10 +25,12 @@ def admin_in(request):
 	admins_user = [person.user for person in admins]
 	return request.user in admins_user
 
-
+@admin_logged_in
 def index(request):
+	admin = request.user
 	return render(request, 'users/index.html', {
-		'users' : User.objects.all()
+		'users' : User.objects.all(),
+		'my_userid' : admin.id,
 		})
 
 def register(request):
@@ -59,14 +62,16 @@ def login_view(request):
 			login(request, user)
 			request.session['user_in'] = user_in(request)
 			request.session['admin_in'] = admin_in(request)
-			print('user_in : ', request.session['user_in'])
-			print('admin_in : ', request.session['admin_in'])
+			if 'index' not in request.session:
+				request.session['index'] = ['users']
+			if 'user_cart' not in request.session:
+				request.session['user_cart'] = []
+
 			return HttpResponseRedirect(reverse('users:user', args = (user.id,)))
 		else:
 			return render(request, 'users/login.html', {
 				'msg_2' : {'msg_type' : 'negative', 'msg_text' : 'invalid username and/or password'},
 				})
-
 	return render(request, 'users/login.html')
 
 def logout_view(request):
@@ -86,6 +91,8 @@ def user(request, user_id):
 	return render(request, 'users/user.html', {
 		'user' : user,
 		'msg_2' : msg_2,
+		'msg_user' : request.session['user_in'],
+		'msg_admin' : request.session['admin_in']
 		})
 
 def uprofile(request, user_id):
@@ -120,20 +127,8 @@ def uprofile(request, user_id):
 				birthday = profile_birthday
 				)
 
-			# print(
-			# 	uprofile.user.username, type(uprofile.user.username),
-			# 	uprofile.f_name, type(uprofile.f_name),
-			# 	uprofile.l_name, type(uprofile.l_name),
-			# 	uprofile.email, type(uprofile.email),
-			# 	uprofile.phone, type(uprofile.phone),
-			# 	uprofile.age, type(uprofile.age),
-			# 	uprofile.sex, type(uprofile.sex),
-			# 	uprofile.birthday, type(uprofile.birthday)
-			# 	)
-
-
 			uprofile.save()
-
+			request.session['user_in'] = user_in(request)
 			return HttpResponseRedirect(reverse('users:user', args = (user.id,)))
 		else:
 			return render(request, 'users/uprofile.html', {
@@ -159,15 +154,6 @@ def admin_data(request, user_id):
 		if form.is_valid():
 			admin_data = form.save(commit = False)
 			admin_data.user = data_user
-			
-			# print(
-			# 	admin_data.user.username,
-			# 	admin_data.nick,
-			# 	admin_data.f_name,
-			# 	admin_data.l_name,
-			# 	admin_data.email,
-			# 	admin_data.phone,
-			# 	)
 
 			admin_data.save()
 
@@ -193,3 +179,17 @@ def admin_data(request, user_id):
 			'user' : user,
 			'msg_3' : {'msg_type' : 'neutral', 'msg_text' : 'from admin register'},
 			})
+
+def user_look(request, user_id):
+	person = User.objects.get(pk = user_id)
+	user_profile = Profile_user.objects.get(user = person)
+	return render(request, 'users/look_user.html', {
+		'user' : user_profile,
+		})
+
+def admin_look(request, user_id):
+	person = User.objects.get(pk = user_id)
+	admin_profile = Profile_admin.objects.get(user = person)
+	return render(request, 'users/look_admin.html', {
+		'admin' : admin_profile,
+		})

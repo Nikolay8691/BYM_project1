@@ -1,24 +1,21 @@
 {% extends 'products/layout.html' %}
-{%block head %}
-<script>
-	function new_value(id){
-		const re_book = confirm(`this product is booked - re_book?`);
-		}
-</script>
+{% block head %}
 {% endblock %}
 {% block body %}
 
 	<h1>Products</h1>
 
 	<p>{{prod_category}}</p>
-
+	<table>
 	{% for gp_product in gp_products %}
 	
 	<form action="{% url 'carts:plus' gp_product.0.id %}" method="post">
 		{% csrf_token %}
 		{% if gp_product.1 %}
 			<div>
-				<input type="submit" value="cart +=" disabled=True>
+			<tr>
+				<td><input type="submit" value="cart +=" disabled=True></td>
+				<td>
 				<input type='number' class = 'qnt' name='pcs' value='{{gp_product.1}}' disabled=True>
 				<label>
 					pcs. of 
@@ -26,22 +23,49 @@
 					{{gp_product.0.product.title}}
 					</a> : {{gp_product.0.price}} rub.
 				</label>
-				<button class = 'book' onclick = 'new_value({{gp_product.0.id}})'>re-book</button>
+				</td>
+				<td>
+				<div class="butt">
+						<a href="{% url 'carts:change' gp_product.0.id %}">
+							<button type="button" class = 'book'>re-book</button>
+						</a>
+					<div class='tooltip'>re-book BUTTON :
+					push the button only if you want to change number pcs or delete this product from the cart.
+					</div>
+				</div>
+				</td>
+			</tr>
 			</div>
 		{% else %}
 			<div>
-				<input type="submit" value="cart +=">
-				<input type='number' class = 'qnt' name='pcs' value='{{gp_product.1}}'>
-				<label>
-					pcs. of 
-					<a href="{% url 'products:product' gp_product.0.product.id %}">
-					{{gp_product.0.product.title}}
-					</a> : {{gp_product.0.price}} rub.
-				</label>
+			<tr>
+				<td>
+				<div class="butt">
+						<input type="submit" value="cart +=">
+					<div class='tooltip'>cart &#43 BUTTON : 
+					adds this product to the cart, but if pcs = 0 does nothing.
+					</div>
+				</div>
+				</td>
+				<td><input type='number' class = 'qnt' name='pcs' value='{{gp_product.1}}' min="0">
+					<label>
+						pcs. of 
+						<a href="{% url 'products:product' gp_product.0.product.id %}">
+						{{gp_product.0.product.title}}
+						</a> : {{gp_product.0.price}} rub.
+					</label>
+				</td>
+			</tr>
 			</div>
 		{% endif %}
 	</form>
 
 	{% endfor %}
-
+	</table>
+	</br>
+	<a href=" {% url 'products:index' %}">back to all categories</a>
+	</br>
+	<a href=" {% url 'carts:index' %}">go to cart</a>
+	</br>
+	<a href=" {% url 'users:logout' %}">cancel</a>
 {% endblock %}

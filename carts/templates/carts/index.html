@@ -1,4 +1,21 @@
 {% extends 'carts/layout.html' %}
+{% block head %}
+	<script>
+
+		document.addEventListener('DOMContentLoaded', function(){
+			elem = '.butt';
+			document.querySelectorAll(elem).forEach(function(elem){
+				elem.onmouseover = function(){
+					this.children[1].style.display = "block";
+				}
+				elem.onmouseout = function(){
+					this.children[1].style.display = "";
+				}
+			});
+		});
+
+	</script>
+{% endblock %}
 
 {% block body %}
 	<h1>Cart :</h1>
@@ -11,17 +28,30 @@
 				</a>
 				at {{cart_item.0.price}} rub. the number of pcs. : {{cart_item.1}}
 
-				<a href="{% url 'carts:change' cart_item.0.id %}">
-					<button type="button" class = 'book'>re-book</button>
-				</a>
+				<div class='butt'>
+						<a href="{% url 'carts:change' cart_item.0.id %}">
+							<button type="button" class = 'book'>re-book</button>
+						</a>
+					<div class='tooltip'>re-book BUTTON: 
+					this product is already booked. push the button only if you want to change number pcs.	
+					</div>
+				</div>
+				<div class='butt'>
+						<a href="{% url 'carts:delete' cart_item.0.id %}">
+							<button type="button" class = 'de_lete'>delete</button>
+						</a>
+					<div class='tooltip'>delete BUTTON: 
+					push the button only if you want to delete this product from the cart.	
+					</div>
+				</div>
 			</li>
 		{% empty %}
 			<p> cart is empty </p>
 		{% endfor %}
 	</ol>
 	
-	<a href="{% url 'carts:gcart_story' %}"><button type="button">PAY</button></a>
-	<a href="{% url 'users:logout' %}"><button type="button">CANCEL</button></a>
-	<a href="{% url 'products:index' %}"><button type="button">ADD PRODUCTS</button></a>
+	<a href="{% url 'carts:gcart_story' %}">proceede with payment</a><p></p>
+	<a href="{% url 'products:index' %}">add products</a><p></p>
+	<a href="{% url 'users:logout' %}">CANCEL</a>
 
 {% endblock %}
