@@ -27,7 +27,8 @@ class Profile_user(models.Model):
 
 	age = models.IntegerField(default = 0, blank = True)
 	sex = models.CharField(max_length = 7, blank = True)
-	birthday = models.DateField(default = date.today, blank = True)
+	# birthday = models.DateField(default = date.today, blank = True)
+	birthday = models.DateField(default = date.today)
 
 	def __str__(self):
 		return f' login_name : {self.user.username} ({self.f_name} {self.l_name})'

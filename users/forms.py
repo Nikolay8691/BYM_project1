@@ -8,10 +8,9 @@ from .models import Profile_user, Profile_admin
 class ProfileForm(ModelForm):
 	class Meta:
 		model = Profile_user
-		exclude = ['user']
+		exclude = ['user', 'birthday']
 
 class AdminData(ModelForm):
 	class Meta:
 		model = Profile_admin
 		exclude = ['user']
-

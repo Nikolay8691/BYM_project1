@@ -45,6 +45,12 @@ def register(request):
 	    if form.is_valid():
 	        user = form.save()            
 	        login(request, user)
+	        request.session['user_in'] = user_in(request)
+	        request.session['admin_in'] = admin_in(request)
+	        if 'index' not in request.session:
+	        	request.session['index'] = ['users']
+	        if 'user_cart' not in request.session:
+	        	request.session['user_cart'] = []
 	        return HttpResponseRedirect(reverse('users:user_profile', args = (user.id,)))
 	    else:
 	        return render(
@@ -109,7 +115,9 @@ def uprofile(request, user_id):
 			profile_phone = form.cleaned_data['phone']
 			profile_age = form.cleaned_data['age']
 			profile_sex = form.cleaned_data['sex']
-			profile_birthday = form.cleaned_data['birthday']
+			# profile_birthday = form.cleaned_data['birthday']
+
+			profile_birthday = request.POST['birthday']
 
 			# if profile_age == None:
 			# 	profile_age = 0
